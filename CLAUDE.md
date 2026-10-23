@@ -4,5 +4,5 @@ Static site: `index.html`, `assets/css/style.css`, `assets/js/main.js`, images i
 
 - All visual work must follow `DESIGN.md` (technical direction, spacing scale, 4px radii, one load sequence).
 - Page copy is Arabic (RTL); code and comments in US English.
-- Model cards and the hero part finder are rendered from `MODELS` / `FAMILIES` / `PARTS` in `assets/js/main.js`.
+- The hero part finder and the model explorer (tabs + generations) are rendered from `MODELS` / `FAMILIES` / `PARTS` in `assets/js/main.js`.
 - All WhatsApp enquiries go to the sales line `218917025011`.

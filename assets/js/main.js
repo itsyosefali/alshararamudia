@@ -1,7 +1,8 @@
 /* =========================================================
    الشراره المضيئة — Landing page behaviour
-   - Renders the VW catalogue index (grouped by model family)
-   - Part finder: builds a WhatsApp request from model + part
+   - Hero part finder: builds a WhatsApp request from model + part
+   - Model explorer: family tabs → generation list → photo + enquiry link
+   - Click-to-load map for the head office
    ========================================================= */
 (function () {
   "use strict";
@@ -9,7 +10,9 @@
   // Sales & marketing line receives every WhatsApp enquiry from the page.
   var SALES_WA = "218917025011";
 
-  // Images were cropped from the supplier's VW catalogue (assets/img/cars).
+  // Head office (السبعة, Tripoli) — pin supplied by the client.
+  var MAP_EMBED = "https://maps.google.com/maps?q=32.858848571777344,13.261788368225098&z=17&hl=ar&output=embed";
+
   var FAMILIES = [
     { id: "touareg", ar: "طوارق", en: "Touareg" },
     { id: "phaeton", ar: "فايتون", en: "Phaeton" },
@@ -18,6 +21,7 @@
     { id: "sharan", ar: "شاران", en: "Sharan" }
   ];
 
+  // Images were cropped from the supplier's VW catalogue (assets/img/cars).
   var MODELS = [
     { family: "touareg", years: "2019+", trim: "الفئة العادية", img: "touareg-19-normal.jpg" },
     { family: "touareg", years: "2019+", trim: "R-Line", img: "touareg-19-rline.jpg" },
@@ -39,13 +43,13 @@
   ];
 
   var OTHER_PART = "قطعة أخرى";
-  var PARTS = ["صدّام أمامي", "صدّام خلفي", "شبكة أمامية", "مصابيح", "إطار ضباب", "جنح سفلي", "أشرطة كروم", OTHER_PART];
+  var PARTS = ["صدّام أمامي", "صدّام خلفي", "شبكة أمامية", "مصابيح أمامية", "مصابيح خلفية", "إطار مصباح الضباب", "جنح سفلي", "أشرطة كروم", OTHER_PART];
 
   function familyOf(model) {
     return FAMILIES.filter(function (f) { return f.id === model.family; })[0];
   }
 
-  // Human-readable model name, e.g. "فولكس فاجن طوارق R-Line 2019+"
+  // e.g. "فولكس فاجن طوارق R-Line 2019+"
   function modelLabel(model) {
     var fam = familyOf(model);
     return "فولكس فاجن " + fam.ar + (model.trim ? " " + model.trim : "") + " " + model.years;
@@ -55,103 +59,157 @@
     return "https://wa.me/" + SALES_WA + "?text=" + encodeURIComponent(text);
   }
 
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"]/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
-    });
-  }
-
-  /* ---------- Catalogue index ---------- */
-  function renderModels() {
-    var root = document.getElementById("modelGroups");
-    if (!root) return;
-
-    root.innerHTML = FAMILIES.map(function (fam) {
-      var items = MODELS.filter(function (m) { return m.family === fam.id; });
-      var cards = items.map(function (m) {
-        var label = modelLabel(m);
-        return (
-          '<li><a class="model" href="' + waLink("السلام عليكم، أبحث عن قطع غيار لسيارة " + label) + '" target="_blank" rel="noopener">' +
-            '<img src="assets/img/cars/' + m.img + '" alt="' + escapeHtml(label) + '" loading="lazy" width="611" height="312">' +
-            '<span class="model__body">' +
-              '<span class="model__years">' + m.years + "</span>" +
-              (m.trim ? '<span class="model__trim">' + escapeHtml(m.trim) + "</span>" : "") +
-            "</span>" +
-            '<span class="model__ask">اسأل عن قطعه عبر واتساب</span>' +
-          "</a></li>"
-        );
-      }).join("");
-
-      return (
-        '<section class="family" aria-labelledby="fam-' + fam.id + '">' +
-          '<div class="family__head">' +
-            '<h3 id="fam-' + fam.id + '">' + fam.ar + "</h3>" +
-            '<span class="family__en">' + fam.en + "</span>" +
-            '<span class="family__count">' + items.length + (items.length > 2 ? " طرازات" : " طراز") + "</span>" +
-          "</div>" +
-          '<ul class="models">' + cards + "</ul>" +
-        "</section>"
-      );
-    }).join("");
-  }
-
-  /* ---------- Part finder ---------- */
+  /* ---------- Hero part finder ---------- */
   function initFinder() {
     var form = document.getElementById("finder");
-    var select = document.getElementById("finderModel");
-    var partsBox = document.getElementById("finderParts");
+    var modelSel = document.getElementById("finderModel");
+    var partSel = document.getElementById("finderPart");
     var error = document.getElementById("finderError");
-    if (!form || !select || !partsBox) return;
+    if (!form || !modelSel || !partSel) return;
 
     FAMILIES.forEach(function (fam) {
       var group = document.createElement("optgroup");
-      group.label = fam.ar + " — " + fam.en;
+      group.label = fam.ar + " (" + fam.en + ")";
       MODELS.forEach(function (m, i) {
         if (m.family !== fam.id) return;
-        var opt = document.createElement("option");
-        opt.value = String(i);
-        opt.textContent = fam.ar + (m.trim ? " " + m.trim : "") + " (" + m.years + ")";
-        group.appendChild(opt);
+        group.appendChild(new Option(fam.ar + (m.trim ? " " + m.trim : "") + " " + m.years, String(i)));
       });
-      select.appendChild(group);
+      modelSel.appendChild(group);
     });
     var audi = document.createElement("optgroup");
     audi.label = "أودي";
-    var audiOpt = document.createElement("option");
-    audiOpt.value = "audi";
-    audiOpt.textContent = "أودي (اكتب الطراز في المحادثة)";
-    audi.appendChild(audiOpt);
-    select.appendChild(audi);
+    audi.appendChild(new Option("أودي (اكتب الطراز في المحادثة)", "audi"));
+    modelSel.appendChild(audi);
 
-    partsBox.innerHTML = PARTS.map(function (p, i) {
-      return '<label class="pill"><input type="radio" name="part" value="' + escapeHtml(p) + '"' + (i === 0 ? " checked" : "") + "><span>" + escapeHtml(p) + "</span></label>";
-    }).join("");
+    PARTS.forEach(function (p) { partSel.appendChild(new Option(p, p)); });
 
-    select.addEventListener("change", function () {
-      if (select.value) {
-        error.hidden = true;
-        select.removeAttribute("aria-invalid");
-      }
+    modelSel.addEventListener("change", function () {
+      if (!modelSel.value) return;
+      error.hidden = true;
+      modelSel.removeAttribute("aria-invalid");
     });
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!select.value) {
+      if (!modelSel.value) {
         error.hidden = false;
-        select.setAttribute("aria-invalid", "true");
-        select.focus();
+        modelSel.setAttribute("aria-invalid", "true");
+        modelSel.focus();
         return;
       }
-      var car = select.value === "audi" ? "أودي" : modelLabel(MODELS[Number(select.value)]);
-      var part = (form.querySelector('input[name="part"]:checked') || {}).value || "";
-      if (!part || part === OTHER_PART) part = "قطعة";
-      var msg = "السلام عليكم، أبحث عن " + part + " لسيارة " + car + ". هل هي متوفرة، وكم السعر؟";
-      window.open(waLink(msg), "_blank", "noopener");
+      var car = modelSel.value === "audi" ? "أودي" : modelLabel(MODELS[Number(modelSel.value)]);
+      var part = partSel.value === OTHER_PART ? "قطعة" : partSel.value;
+      window.open(waLink("السلام عليكم، أبحث عن " + part + " لسيارة " + car + ". هل هي متوفرة، وكم السعر؟"), "_blank", "noopener");
     });
   }
 
-  renderModels();
+  /* ---------- Model explorer ---------- */
+  function initExplorer() {
+    var tabsEl = document.getElementById("explorerTabs");
+    var gensEl = document.getElementById("explorerGens");
+    var img = document.getElementById("explorerImg");
+    var nameEl = document.getElementById("explorerName");
+    var ask = document.getElementById("explorerAsk");
+    if (!tabsEl || !gensEl || !img) return;
+    var wanted = img.getAttribute("src");
+
+    function showModel(index) {
+      var m = MODELS[index];
+      var fam = familyOf(m);
+      gensEl.querySelectorAll(".gen").forEach(function (b) {
+        b.setAttribute("aria-checked", b.dataset.index === String(index) ? "true" : "false");
+      });
+      nameEl.innerHTML = "<b>" + fam.ar + "</b> " + (m.trim ? m.trim + " " : "") + '<span dir="ltr">' + m.years + "</span>";
+      ask.href = waLink("السلام عليكم، أبحث عن قطع غيار لسيارة " + modelLabel(m));
+      img.alt = modelLabel(m);
+
+      var src = "assets/img/cars/" + m.img;
+      wanted = src;
+      if (img.getAttribute("src") === src) {
+        img.classList.remove("is-swapping");
+        return;
+      }
+      // Crossfade: fade out, swap once the new image is ready, fade in.
+      // Only the latest selection may swap, so fast clicks can't leave a stale photo.
+      img.classList.add("is-swapping");
+      var next = new Image();
+      next.onload = next.onerror = function () {
+        if (wanted !== src) return;
+        img.src = src;
+        img.classList.remove("is-swapping");
+      };
+      next.src = src;
+    }
+
+    function showFamily(famId) {
+      tabsEl.querySelectorAll(".tab").forEach(function (t) {
+        var on = t.dataset.family === famId;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+      });
+      var first = -1;
+      gensEl.innerHTML = "";
+      MODELS.forEach(function (m, i) {
+        if (m.family !== famId) return;
+        if (first < 0) first = i;
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "gen";
+        b.setAttribute("role", "radio");
+        b.dataset.index = String(i);
+        b.innerHTML = '<span class="gen__years">' + m.years + '</span><span class="gen__trim">' + (m.trim || "جميع الفئات") + "</span>";
+        b.addEventListener("click", function () { showModel(i); });
+        gensEl.appendChild(b);
+      });
+      showModel(first);
+    }
+
+    FAMILIES.forEach(function (fam) {
+      var count = MODELS.filter(function (m) { return m.family === fam.id; }).length;
+      var t = document.createElement("button");
+      t.type = "button";
+      t.className = "tab";
+      t.setAttribute("role", "tab");
+      t.setAttribute("aria-controls", "explorerGens");
+      t.dataset.family = fam.id;
+      t.innerHTML = fam.ar + "<small>" + count + "</small>";
+      t.addEventListener("click", function () { showFamily(fam.id); });
+      tabsEl.appendChild(t);
+    });
+
+    // Arrow keys move between tabs (RTL: right arrow goes to the previous tab)
+    tabsEl.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      var tabs = Array.prototype.slice.call(tabsEl.querySelectorAll(".tab"));
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var step = e.key === "ArrowLeft" ? 1 : -1;
+      var next = tabs[(i + step + tabs.length) % tabs.length];
+      next.focus();
+      next.click();
+    });
+
+    showFamily(FAMILIES[0].id);
+  }
+
+  /* ---------- Map (click-to-load, no Google request until asked) ---------- */
+  function initMap() {
+    var btn = document.getElementById("mapLoad");
+    var box = document.getElementById("map");
+    if (!btn || !box) return;
+    btn.addEventListener("click", function () {
+      var frame = document.createElement("iframe");
+      frame.src = MAP_EMBED;
+      frame.title = "موقع الإدارة العامة على خريطة Google";
+      frame.loading = "lazy";
+      frame.referrerPolicy = "no-referrer-when-downgrade";
+      box.replaceChildren(frame);
+    });
+  }
+
   initFinder();
+  initExplorer();
+  initMap();
 
   var year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
