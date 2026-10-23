@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الشراره المضيئة | استيراد السيارات وقطع غيارها</title>
+  <meta name="description" content="الشراره المضيئة لاستيراد السيارات وقطع غيارها منذ 2025 — صدّامات وشبكات ومصابيح وقطع هيكل لطرازات فولكس فاجن وأودي، في فروع الفرناج وتاجوراء والنادي الأهلي.">
+  <meta name="theme-color" content="#F6B51E">
+  <meta property="og:title" content="الشراره المضيئة | استيراد السيارات وقطع غيارها">
+  <meta property="og:description" content="قطع هيكل فولكس فاجن وأودي مستوردة — منذ 2025.">
+  <meta property="og:image" content="assets/img/hero/touareg-night.jpg">
+  <link rel="icon" type="image/png" href="assets/img/logo-mark.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a href="#top" class="brand" aria-label="الشراره المضيئة — أعلى الصفحة">
+        <img src="assets/img/logo-mark.png" alt="" width="70" height="28">
+        <span class="brand__name">الشراره المضيئة</span>
+      </a>
+      <nav class="nav__links" aria-label="التنقل الرئيسي">
+        <a href="#models">الطرازات</a>
+        <a href="#parts">القطع</a>
+        <a href="#how">طريقة الطلب</a>
+        <a href="#branches">الفروع</a>
+      </nav>
+      <a class="nav__phone" href="tel:+218917025011" aria-label="اتصل بالمبيعات 091 702 5011">
+        <i class="ph ph-phone" aria-hidden="true"></i>
+        <span dir="ltr">091 702 5011</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO + PART FINDER ============ -->
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <h1 class="hero__title">
+            <span class="line">نستورد سيارتك</span>
+            <span class="line">وقطع غيارها</span>
+          </h1>
+          <p class="hero__sub">
+            صدّامات وشبكات ومصابيح وقطع هيكل لطرازات فولكس فاجن وأودي.
+            نعمل منذ 2025 من فروعنا في الفرناج وتاجوراء والنادي الأهلي.
+          </p>
+
+          <form class="finder" id="finder" novalidate>
+            <span class="finder__star" aria-hidden="true"></span>
+            <h2 class="finder__title">ابحث عن قطعة لسيارتك</h2>
+
+            <label class="finder__label" for="finderModel">الطراز وسنة الصنع</label>
+            <div class="select">
+              <i class="ph ph-caret-down select__icon" aria-hidden="true"></i>
+              <select id="finderModel" name="model" required>
+                <option value="">اختر الطراز</option>
+                <!-- Options filled from MODELS in main.js -->
+              </select>
+            </div>
+
+            <fieldset class="finder__parts">
+              <legend class="finder__label">القطعة المطلوبة</legend>
+              <div class="pills" id="finderParts"><!-- Filled from PARTS in main.js --></div>
+            </fieldset>
+
+            <p class="finder__error" id="finderError" role="alert" hidden>اختر الطراز أولاً، ثم أرسل الطلب.</p>
+
+            <button class="btn btn--yellow finder__submit" type="submit">
+              <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+              أرسل الطلب عبر واتساب
+            </button>
+            <p class="finder__note">يصل طلبك إلى إدارة المبيعات، ونرد عليك بالتوفر والسعر.</p>
+          </form>
+        </div>
+
+        <figure class="hero__photo">
+          <img src="assets/img/hero/touareg-night.jpg" alt="فولكس فاجن طوارق بيضاء موديل 2019" width="1361" height="748" fetchpriority="high">
+          <!-- Speed lines from the logo -->
+          <svg class="hero__lines" viewBox="0 0 600 160" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 150 C 180 60, 400 22, 600 16"/>
+            <path d="M90 156 C 260 82, 450 44, 600 38"/>
+          </svg>
+          <figcaption>فولكس فاجن طوارق 2019 — من الطرازات التي نوفّر قطعها</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ VW MODELS (catalogue index) ============ -->
+    <section class="block block--bay" id="models">
+      <div class="wrap">
+        <header class="block__head">
+          <h2>طرازات فولكس فاجن التي نوفّر قطعها</h2>
+          <p>اضغط على الطراز لتسألنا مباشرة عبر واتساب عن القطعة التي تحتاجها.</p>
+        </header>
+        <!-- Family groups rendered from MODELS in main.js -->
+        <div id="modelGroups"></div>
+        <noscript><p>للاستفسار عن قطع طرازك اتصل على <a href="tel:+218917025011" dir="ltr">091 702 5011</a>.</p></noscript>
+      </div>
+    </section>
+
+    <!-- ============ PARTS ============ -->
+    <section class="block" id="parts">
+      <div class="wrap">
+        <header class="block__head">
+          <h2>القطع التي نستوردها</h2>
+          <p>قطع الهيكل الخارجي التي تتضرر أولاً في الحوادث، مع دعامات التثبيت وواقيات الطين ومجاري الهواء المناسبة لكل طراز.</p>
+        </header>
+
+        <ul class="parts">
+          <li><img src="assets/img/parts/front-bumper.jpg" alt="" loading="lazy" width="281" height="116"><span>صدّامات أمامية</span></li>
+          <li><img src="assets/img/parts/rear-bumper.jpg" alt="" loading="lazy" width="282" height="114"><span>صدّامات خلفية</span></li>
+          <li><img src="assets/img/parts/chrome-grille.jpg" alt="" loading="lazy" width="281" height="114"><span>شبكات كروم</span></li>
+          <li><img src="assets/img/parts/grille.jpg" alt="" loading="lazy" width="282" height="116"><span>شبكات أمامية</span></li>
+          <li><img src="assets/img/parts/tail-lamp.jpg" alt="" loading="lazy" width="282" height="114"><span>مصابيح خلفية</span></li>
+          <li><img src="assets/img/parts/fog-bezel.jpg" alt="" loading="lazy" width="281" height="114"><span>إطارات مصابيح الضباب</span></li>
+          <li><img src="assets/img/parts/front-spoiler.jpg" alt="" loading="lazy" width="281" height="114"><span>جنوحات سفلية</span></li>
+          <li><img src="assets/img/parts/chrome-strip.jpg" alt="" loading="lazy" width="281" height="114"><span>أشرطة كروم</span></li>
+        </ul>
+
+        <div class="whole-car">
+          <img src="assets/img/hero/touareg-blue.jpg" alt="فولكس فاجن طوارق زرقاء" loading="lazy" width="1361" height="625">
+          <div class="whole-car__text">
+            <h3>نستورد السيارة كاملة أيضاً</h3>
+            <p>أخبرنا بالطراز وسنة الصنع واللون الذي تريده، ونبلغك بالسعر وموعد الوصول.</p>
+            <a class="btn btn--yellow" href="https://wa.me/218917025011?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF%20%D8%B3%D9%8A%D8%A7%D8%B1%D8%A9" target="_blank" rel="noopener">اطلب سيارة عبر واتساب</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW TO ORDER (a real sequence) ============ -->
+    <section class="block block--bay" id="how">
+      <div class="wrap split">
+        <header class="block__head">
+          <h2>كيف تطلب قطعة</h2>
+        </header>
+        <ol class="steps">
+          <li>
+            <span class="steps__n">1</span>
+            <h3>أرسل الطراز والسنة</h3>
+            <p>عبر واتساب أو مكالمة، ومعها صورة للقطعة إن وُجدت.</p>
+          </li>
+          <li>
+            <span class="steps__n">2</span>
+            <h3>نطابق رقم القطعة</h3>
+            <p>نحدد القطعة برقمها من كتالوج المورّد، ونؤكد لك التوفر والسعر قبل أي التزام.</p>
+          </li>
+          <li>
+            <span class="steps__n">3</span>
+            <h3>استلم من أقرب فرع</h3>
+            <p>الفرناج أو تاجوراء أو النادي الأهلي، حسب ما يناسبك.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ AUDI ============ -->
+    <section class="audi">
+      <img class="audi__bg" src="assets/img/hero/audi-q8.jpg" alt="" loading="lazy" aria-hidden="true">
+      <div class="wrap audi__inner">
+        <div class="audi__copy">
+          <h2>قطع أودي أيضاً</h2>
+          <p>شبكات وصدّامات ومصابيح وقطع هيكل لأجيال متعددة من طرازات أودي.</p>
+          <ul class="audi__models" aria-label="طرازات أودي">
+            <li>Q8</li><li>Q7</li><li>Q5</li><li>Q3</li><li>A8</li><li>A6</li><li>A4</li>
+          </ul>
+          <a class="btn btn--yellow" href="https://wa.me/218917025011?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D8%AD%D8%AB%20%D8%B9%D9%86%20%D9%82%D8%B7%D8%B9%20%D8%A3%D9%88%D8%AF%D9%8A" target="_blank" rel="noopener">اسأل عن قطع أودي عبر واتساب</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BRANCHES ============ -->
+    <section class="branches" id="branches">
+      <div class="wrap split">
+        <header class="block__head">
+          <h2>فروعنا وأرقامنا</h2>
+          <p>اتصل بالفرع الأقرب لك، أو راسل إدارة المبيعات للطلبات والأسعار.</p>
+        </header>
+
+        <ul class="branch-list">
+          <li class="branch">
+            <div class="branch__name"><h3>الإدارة العامة</h3><p>الفرناج، السبعة</p></div>
+            <a class="branch__phone" href="tel:+218912185111" dir="ltr">091 218 5111</a>
+            <a class="branch__wa" href="https://wa.me/218912185111" target="_blank" rel="noopener">واتساب</a>
+          </li>
+          <li class="branch">
+            <div class="branch__name"><h3>فرع تاجوراء</h3><p>تاجوراء</p></div>
+            <a class="branch__phone" href="tel:+218923185111" dir="ltr">092 318 5111</a>
+            <a class="branch__wa" href="https://wa.me/218923185111" target="_blank" rel="noopener">واتساب</a>
+          </li>
+          <li class="branch">
+            <div class="branch__name"><h3>فرع النادي الأهلي</h3><p>النادي الأهلي</p></div>
+            <a class="branch__phone" href="tel:+218911080003" dir="ltr">091 108 0003</a>
+            <a class="branch__wa" href="https://wa.me/218911080003" target="_blank" rel="noopener">واتساب</a>
+          </li>
+          <li class="branch branch--sales">
+            <div class="branch__name"><h3>إدارة المبيعات والتسويق</h3><p>للطلبات والأسعار وطلبات الجملة</p></div>
+            <a class="branch__phone" href="tel:+218917025011" dir="ltr">091 702 5011</a>
+            <a class="branch__wa" href="https://wa.me/218917025011" target="_blank" rel="noopener">واتساب</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <img class="footer__logo" src="assets/img/logo-light.png" alt="شعار الشراره المضيئة لاستيراد السيارات وقطع غيارها" width="200" height="161" loading="lazy">
+      <nav class="footer__links" aria-label="روابط التذييل">
+        <a href="#models">الطرازات</a>
+        <a href="#parts">القطع</a>
+        <a href="#how">طريقة الطلب</a>
+        <a href="#branches">الفروع</a>
+      </nav>
+    </div>
+    <div class="wrap footer__legal">
+      <p>© <span id="year">2025</span> الشراره المضيئة لاستيراد السيارات وقطع غيارها.</p>
+      <p>فولكس فاجن وأودي علامات تجارية لأصحابها، وتُذكر هنا لتوضيح توافق القطع فقط.</p>
+    </div>
+  </footer>
+
+  <a class="fab" href="https://wa.me/218917025011" target="_blank" rel="noopener" aria-label="راسل المبيعات عبر واتساب">
+    <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+  </a>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
