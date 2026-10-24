@@ -258,7 +258,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .map__facade .ph { font-size: var(--s5); color: var(--navy); }
 .map__title { font-weight: 600; }
 .map__note { font-size: 0.85rem; color: var(--steel); }
-.map__link { margin-top: var(--s3); }
 
 /* ---------- Footer ---------- */
 .footer { background: var(--navy); color: #aab2bf; padding-top: var(--s5); }
