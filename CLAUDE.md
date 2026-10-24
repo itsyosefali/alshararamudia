@@ -5,4 +5,4 @@ Static site: `index.html`, `assets/css/style.css`, `assets/js/main.js`, images i
 - All visual work must follow `DESIGN.md` (technical direction, spacing scale, 4px radii, one load sequence).
 - Page copy is Arabic (RTL); code and comments in US English.
 - The hero part finder and the model explorer (tabs + generations) are rendered from `MODELS` / `FAMILIES` / `PARTS` in `assets/js/main.js`.
-- All WhatsApp enquiries go to the sales line `218917025011`.
+- All WhatsApp enquiries go to Ihab Al-Shamakhi on `218910312477`.

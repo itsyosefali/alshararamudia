@@ -7,8 +7,8 @@
 (function () {
   "use strict";
 
-  // Sales & marketing line receives every WhatsApp enquiry from the page.
-  var SALES_WA = "218917025011";
+  // Ihab Al-Shamakhi receives every WhatsApp enquiry from the page.
+  var SALES_WA = "218910312477";
 
   // Head office (السبعة, Tripoli) — pin supplied by the client.
   var MAP_EMBED = "https://maps.google.com/maps?q=32.858848571777344,13.261788368225098&z=17&hl=ar&output=embed";
